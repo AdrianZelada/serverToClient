@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.css">
 </head>
 <body ng-app="console">
-
     <div ng-controller="consoleCtrl">
         <json-explorer data="responseServer" collapsed="true"></json-explorer>
     </div>
@@ -44,17 +43,14 @@
                 };
             }).controller('consoleCtrl',function ($scope,socket) {
 
-                $scope.responseServer={
-                    a:1,
-                    b:2
-                };
+                $scope.responseServer=[];
                 socket.on('test', function (data) {
                     console.log('tests')
                 });
 
                 socket.on('console',function (data) {
                     console.warn('Server >>> '+data.file, data.arg);
-                    $scope.responseServer=data
+                    $scope.responseServer.push(data)
                 });
         });
     })();
