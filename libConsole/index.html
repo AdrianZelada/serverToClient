@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-socket-io/0.7.0/socket.js"></script>
+    <script src="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/odra/ng-json-explorer/master/dist/angular-json-explorer.min.css">
+</head>
+<body ng-app="console">
+
+    <div ng-controller="consoleCtrl">
+        <json-explorer data="responseServer" collapsed="true"></json-explorer>
+    </div>
+<script>
+    /**
+     * Created by iZel on 1/13/17.
+     */
+    (function(){
+        angular.module('console',['ngJsonExplorer']).
+            factory('socket', function ($rootScope) {
+                var socket = io.connect('http://localhost:8000');
+                return {
+                    on: function (eventName, callback) {
+                        socket.on(eventName, function () {
+                            var args = arguments;
+                            $rootScope.$apply(function () {
+                                callback.apply(socket, args);
+                            });
+                        });
+                    },
+                    emit: function (eventName, data, callback) {
+                        socket.emit(eventName, data, function () {
+                            var args = arguments;
+                            $rootScope.$apply(function () {
+                                if (callback) {
+                                    callback.apply(socket, args);
+                                }
+                            });
+                        })
+                    }
+                };
+            }).controller('consoleCtrl',function ($scope,socket) {
+
+                $scope.responseServer={
+                    a:1,
+                    b:2
+                };
+                socket.on('test', function (data) {
+                    console.log('tests')
+                });
+
+                socket.on('console',function (data) {
+                    console.warn('Server >>> '+data.file, data.arg);
+                    $scope.responseServer=data
+                });
+        });
+    })();
+</script>
+</body>
+</html>
