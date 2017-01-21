@@ -1,13 +1,11 @@
 /**
- * Created by iZel on 1/16/17.
- */
-/**
  * Created by iZel on 1/12/17.
  */
 
-var io = require('socket.io')(8000),
+var http = require('http'),
     express = require('express'),
     router = express.Router(),
+    io = require('socket.io')(8888),
     _console= console;
 
 _console=console;
@@ -21,10 +19,6 @@ _console.info = function () {
     sendObj[file]=arguments;
     io.sockets.emit('console', sendObj)
 };
-
-io.on('connection',function (socket) {
-
-});
 
 router.get('/',function (req,res) {
     res.render('../libConsole/index.ejs')

@@ -20,7 +20,11 @@
     <div ng-controller="consoleCtrl">
         <div class="col-sm-12">
             <div class="col-sm-8">
-                <json-explorer class="content-json" data="responseServer" collapsed="true"></json-explorer>
+                <div ng-repeat="res in responseServer" class="row content-item-json">
+                    <label class="col-md-2 label-json">{{res.key}}</label>
+                    <json-explorer class="content-json col-md-10" data="res.value" ng-init="fn.keysRes(res)" collapsed="true"></json-explorer>
+                </div>
+                <!--<json-explorer ng-repeat="res in responseServer" class="content-json" data="res.value" ng-init="fn.keysRes(res)" collapsed="true"></json-explorer>-->
             </div>
         </div>
     </div>

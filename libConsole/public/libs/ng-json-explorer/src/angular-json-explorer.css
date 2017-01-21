@@ -55,8 +55,8 @@
 }
 
 .angular-json-explorer {
-	font-family: monospace;
-	font-size: 1.1em;
+	font-family: arial;
+	font-size: 13px;
 	white-space: pre-wrap;
 }
 
@@ -77,4 +77,13 @@
 .angular-json-explorer .callback {
 	font-family: monospace;
 	color: #A52A2A;
+}
+
+.label-json{
+	text-align: center;
+	margin-top: 15px;
+}
+
+.content-item-json{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
