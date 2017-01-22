@@ -1,3 +1,29 @@
 .angular-json-explorer{
     background: rgba(192,192,192,0.2)
 }
+.not-object{
+    padding: 10px 0 0 2em;
+    height:40px;
+    margin-bottom: 0px;
+}
+.log-error{
+    padding: 10px 0 0 2em;
+    margin-bottom: 0px;
+}
+.heigth-log{
+    height:300px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.new-log{
+    background: red;
+}
+
+.height-request{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/*.heigth-log .content-item-json:first-child{*/
+    /*background: red;*/
+/*}*/

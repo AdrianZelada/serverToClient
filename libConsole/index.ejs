@@ -14,17 +14,77 @@
     <link rel="stylesheet" href="public/libs/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="public/css/style.css">
     <script src="public/js/app.js"></script>
+    <script src="public/js/toString.js"></script>
     <title>Console Server</title>
 </head>
 <body ng-app="console">
     <div ng-controller="consoleCtrl">
-        <div class="col-sm-12">
-            <div class="col-sm-8">
-                <div ng-repeat="res in responseServer" class="row content-item-json">
-                    <label class="col-md-2 label-json">{{res.key}}</label>
-                    <json-explorer class="content-json col-md-10" data="res.value" ng-init="fn.keysRes(res)" collapsed="true"></json-explorer>
+        <div class="row" style="margin-left: 10px">
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="row">
+                    <h4>Console for Server</h4>
+                    <div class="heigth-log" ng-mouseenter="fn.onLostFocus()">
+                        <!--<div ng-repeat="res in responseServer" class="row content-item-json" ng-class="{'true':'new-log'}[$index > oldIndex]" ng-init="fn.keysRes(res)">-->
+                        <div ng-repeat="res in responseServer" class="row content-item-json" ng-init="fn.keysRes(res)">
+                            <label class="col-md-3 label-json glyphicon" ng-click="res.status = !res.status"  ng-show="fn.canColap(res.value)">
+                                <span ng-class="{'true':'glyphicon-plus','false':'glyphicon-minus'}[!res.status]"></span>
+                                {{res.key}}
+                            </label>
+                            <label class="col-md-3 label-json glyphicon" ng-hide="fn.canColap(res.value)">
+                                {{res.key}}
+                            </label>
+
+                            <div class="col-md-9" ng-hide="res.status" ng-click="res.status = !res.status">
+                                <div class="content-json row">
+                                    <p class="angular-json-explorer not-object" ng-init="fn.objectToString(res.value,res)">{{res.toString}}</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9" ng-show="res.status">
+                                <div ng-repeat="(key,val) in res.value" class="row content-item-json">
+                                    <json-explorer class="content-json " data="res.value[key]" collapsed="true" ng-show="fn.isObject(res.value[key])"></json-explorer>
+                                    <div class="content-json" ng-hide="fn.isObject(res.value[key])">
+                                        <p class="angular-json-explorer not-object">{{res.value[key]}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--<json-explorer ng-repeat="res in responseServer" class="content-json" data="res.value" ng-init="fn.keysRes(res)" collapsed="true"></json-explorer>-->
+                <div class="row">
+                    <h4>Console for Error</h4>
+                    <div class="heigth-log">
+                        <div ng-repeat="error in requestError" class="row content-item-json">
+                            <div class="content-json">
+                                <p class="angular-json-explorer log-error">{{error.error}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="row">
+                    <h4>Request</h4>
+                    <div class="height-request">
+                        <div ng-repeat="req in requestServer track by $index" class="row content-item-json">
+                            <div class="content-json">
+                                <p class="angular-json-explorer not-object"> {{ req.status }} -- {{req.method}} -- {{req.url}} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<table>-->
+                        <!--<tr>-->
+                            <!--<th>Status</th>-->
+                            <!--<th>Method</th>-->
+                            <!--<th>Url</th>-->
+                        <!--</tr>-->
+                        <!--<tr ng-repeat="req in requestServer">-->
+                            <!--<td>{{ req.status }}</td>-->
+                            <!--<td>{{req.method}}</td>-->
+                            <!--<td>{{req.url}}</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                </div>
             </div>
         </div>
     </div>

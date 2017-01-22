@@ -19,7 +19,12 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// app.use(logger('combined',{
+//   skip:function (res,req) {
+//       return false
+//   }
+// }));
+app.use(logger(':method :url :response-time',libConsole.morgan))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -28,7 +33,9 @@ app.use('/_console',express.static(path.join(__dirname, 'libConsole')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/_console', libConsole);
+app.use('/_console', libConsole.router);
+app.use(libConsole.logErrors)
+
 
 // app.use('/console', libConsole);
 
