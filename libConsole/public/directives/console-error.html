@@ -1,0 +1,19 @@
+<div class="row content-log">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Console for Error</h4>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group" role="group">
+                <button type="button" ng-click="fn.clear()" class="btn btn-default glyphicon glyphicon-trash"></button>
+            </div>
+        </div>
+    </div>
+    <div class="heigth-middle">
+        <div ng-repeat="error in responseError" class="row content-item-json">
+            <div class="content-json">
+                <p class="angular-json-explorer log-error">{{error.error}}</p>
+            </div>
+        </div>
+    </div>
+</div>

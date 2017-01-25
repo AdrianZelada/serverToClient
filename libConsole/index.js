@@ -28,29 +28,56 @@ _console.error = function (stack) {
 };
 
 var request= {
-        skip: function (req, res) {
-            io.sockets.emit('response',{
-                status:res.statusCode,
-                host:req.header('host'),
-                method:req.method,
-                url:req.protocol + '://' + req.get('host') + req.originalUrl
-        });
-            return false;
-        }
+        // skip: _skip
     };
 
 router.get('/',function (req,res) {
     res.render('../libConsole/index.ejs')
 });
 
+function _skip (req, res, data){
+    var request={
+        body:   Object.keys(req.body).length==0 ?   null : req.body,
+        params: Object.keys(req.params).length==0 ? null : req.params,
+        query:  Object.keys(req.query).length==0 ?  null : req.query
+    };
+
+    io.sockets.emit('response',{
+        status:res.statusCode,
+        host:req.header('host'),
+        method:req.method,
+        request:request,
+        response:data,
+        url:req.protocol + '://' + req.get('host') + req.originalUrl
+    });
+    return false;
+}
+
 function _logErrors (err, req, res, next) {
-    console.error(err.stack)
+    console.error(err.stack);
     next(err)
+}
+
+function _responseBody(req, res, next) {
+    var oldJson = res.json;
+    var oldRender = res.render;
+
+    res.json= function(data){
+        _skip(req,res,data);
+        oldJson.apply(res, arguments);
+    };
+
+    res.render = function(view,data){
+        _skip(req,res,data);
+        oldRender.apply(res, arguments);
+    };
+    next();
 }
 
 
 module.exports={
     router:router,
     morgan:request,
-    logErrors:_logErrors
+    logErrors:_logErrors,
+    responseBody:_responseBody
 };

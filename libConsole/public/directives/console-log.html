@@ -1,0 +1,36 @@
+<div class="row content-log">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Console for Server</h4>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group" role="group">
+                <button type="button" ng-click="fn.clear()" class="btn btn-default glyphicon glyphicon-trash"></button>
+            </div>
+        </div>
+    </div>
+    <div class="heigth-long">
+        <div ng-repeat="res in responseServer" class="row content-item-json" ng-init="fn.keysRes(res)">
+            <label class="col-md-3 label-json glyphicon" ng-click="res.status = !res.status"  ng-show="fn.canColap(res.value)">
+                <span ng-class="{'true':'glyphicon-plus','false':'glyphicon-minus'}[!res.status]"></span>
+                    {{res.key}}
+                </label>
+            <label class="col-md-3 label-json glyphicon" ng-hide="fn.canColap(res.value)">
+                {{res.key}}
+            </label>
+            <div class="col-md-9" ng-hide="res.status" ng-click="res.status = !res.status">
+                <div class="content-json row">
+                    <p class="angular-json-explorer not-object" ng-init="fn.objectToString(res.value,res)">{{res.toString}}</p>
+                    </div>
+                </div>
+            <div class="col-md-9" ng-show="res.status">
+                <div ng-repeat="(key,val) in res.value" class="row content-item-json">
+                    <json-explorer class="content-json " data="res.value[key]" collapsed="true" ng-show="fn.isObject(res.value[key])"></json-explorer>
+                    <div class="content-json" ng-hide="fn.isObject(res.value[key])">
+                        <p class="angular-json-explorer not-object">{{res.value[key]}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

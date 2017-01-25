@@ -10,7 +10,7 @@
     padding: 10px 0 0 2em;
     margin-bottom: 0px;
 }
-.heigth-log{
+.heigth-middle{
     height:300px;
     max-height: 300px;
     overflow-y: auto;
@@ -19,11 +19,13 @@
     background: red;
 }
 
-.height-request{
+.height-long{
     max-height: 600px;
     overflow-y: auto;
 }
 
-/*.heigth-log .content-item-json:first-child{*/
-    /*background: red;*/
-/*}*/
+.content-log{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+

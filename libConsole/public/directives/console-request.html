@@ -1,0 +1,19 @@
+<div class="row content-log">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Request</h4>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group" role="group">
+                <button type="button" ng-click="fn.clear()" class="btn btn-default glyphicon glyphicon-trash"></button>
+            </div>
+            </div>
+    </div>
+    <div class="height-middle">
+        <div ng-repeat="req in requestServer track by $index" class="row content-item-json">
+            <div class="content-json">
+                <p class="angular-json-explorer not-object"> {{ req.status }} -- {{req.method}} -- {{req.url}} </p>
+            </div>
+        </div>
+    </div>
+</div>

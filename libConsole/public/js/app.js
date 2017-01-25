@@ -38,6 +38,7 @@ angular.module('console',['ngJsonExplorer']).
 
         socket.on('response',function (data) {
             $scope.requestServer.unshift(data);
+            console.log(data);
         });
 
         socket.on('error',function (data) {
@@ -45,7 +46,6 @@ angular.module('console',['ngJsonExplorer']).
                 error:data
             });
             $scope.requestError.unshift(error)
-            console.log($scope.requestError)
         });
 
 
